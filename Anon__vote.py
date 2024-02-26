@@ -1,6 +1,6 @@
 import asyncio, logging
 from aiogram import Bot, Dispatcher
-from handlers import quiz, dispatcher, get_results, handler
+from handlers import dispatcher, get_results, exceptions, run
 from handlers.DB import token
 
 
@@ -13,9 +13,9 @@ dp = Dispatcher()
 
 async def main():
     dp.include_router(dispatcher.router)
-    dp.include_router(quiz.router)
+    dp.include_router(run.router)
     dp.include_router(get_results.router)
-    dp.include_router(handler.router)
+    dp.include_router(exceptions.router)
     await bot.delete_webhook(drop_pending_updates=True)
     await dp.start_polling(bot)
 
