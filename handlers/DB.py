@@ -7,6 +7,14 @@ token="6600311339:AAEtH4iXyC0x005c-lc_EDYKyEarRl9Cdms"
 
 def on_hold(sec: int): time.sleep(sec) # функция задержки 
 
+def check(user_id: str,department_id: int):
+    try:
+        if sh.get_worksheet(department_id+3).find(user_id) is None: return True
+        else: return False
+    except gspread.exceptions.APIError:
+        on_hold(5)
+        return get_candidats()
+
 def get_candidats():
     try:
         sheet3 = sh.get_worksheet(2)  # выбирам третий по порядку лист
@@ -19,18 +27,17 @@ def get_candidats():
     except gspread.exceptions.APIError:
         on_hold(5)
         return get_candidats()
-print(sh.get_worksheet(2).get_values())
-print(get_candidats())
 
-def pass_user_data(user_id: str,department_id: int,myList: []): #принимаем id пользователя и список ответов
+
+def pass_user_data(user_id: str,department_id: int,myList: list): #принимаем id пользователя и список ответов
     try:
-        department_worksheet=sh.get_worksheet(department_id+3) #определение рабочей страницы в таблице
-        last_row = len(department_worksheet.get_all_values()) + 1 #получение последнего значения заполненной строки +1 
-        if department_worksheet.find(user_id) is None: #проверям на наличие id в таблице
+        worksheet=sh.get_worksheet(department_id+3) #определение рабочей страницы в таблице
+        last_row = len(worksheet.get_all_values()) + 1 #получение последнего значения заполненной строки +1 
+        if check(user_id,  department_id) is True: #проверям на наличие id в таблице
             myList.insert(0,user_id) # Добавляем id на первое место в списке
             for col in range(1, len(myList)+1,1): #заполнение через for(1, длинна списка ответов, шаг 1)
-                department_worksheet.update_cell(last_row, col, myList[col-1]) #определяем место ввода(поселдняя свободная, столбец, значение)
-        else:return False 
+                worksheet.update_cell(last_row, col, myList[col-1]) #определяем место ввода(поселдняя свободная, столбец, значение)
+        else: return False 
     except gspread.exceptions.APIError:
         on_hold(5)
         return pass_user_data(user_id,department_id,myList)

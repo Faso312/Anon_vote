@@ -23,4 +23,4 @@ try:
     if __name__ == '__main__':
         asyncio.run(main())
 except KeyboardInterrupt: print(f'Работа приостановлена.....')
-except Exception as E: print(f'ошибка вида: {e}')
+except Exception as e: print(f'ошибка вида: {e}')

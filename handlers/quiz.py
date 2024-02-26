@@ -2,7 +2,7 @@ from aiogram.types import Message, ReplyKeyboardRemove
 from aiogram.fsm.state import StatesGroup, State
 from aiogram.fsm.context import FSMContext
 from aiogram import Router, F, types, html
-from .DB import pass_user_data, get_candidats
+from .DB import pass_user_data, get_candidats, check
 from keyboards.dinemic_kb import make_row_keyboard
 
 available_answers = ["за", "против", "воздержусь"]
@@ -15,6 +15,7 @@ router = Router()
 
 class answer_the_q(StatesGroup):
     choose_department=State()
+    check=State()
     ans_q1 = State()
     ans_q2 = State()
     ans_q3 = State()
@@ -50,10 +51,20 @@ async def running(callback: types.CallbackQuery, state: FSMContext):
     await state.set_state(answer_the_q.choose_department) #Устанавливаем пользователю состояние "выбирает ответ"
     await callback.answer()
     
-
 @router.message(answer_the_q.choose_department, F.text.in_(available_departmemts))
-async def answering_q1(message: Message, state: FSMContext):  #задание 1 вопроса
+async def checking_for_vote(message: Message, state: FSMContext):
     await state.update_data(department=message.text)
+    user_data = await state.get_data()
+    print(int(available_departmemts.index(user_data['department'])),message.from_user.id)
+    if check(str(message.from_user.id), int(available_departmemts.index(user_data['department']))) is True:
+        await state.set_state(answer_the_q.check)
+    else: 
+        await message.answer(f'Вы уже голосовали',reply_markup=ReplyKeyboardRemove())
+        await state.clear()
+
+
+@router.message(answer_the_q.check, F.text.in_(available_departmemts))
+async def answering_q1(message: Message, state: FSMContext):  #задание 1 вопроса
     user_data = await state.get_data()
     await message.answer(
         str(local_cand_list[int(available_departmemts.index(user_data['department']))][0]),
