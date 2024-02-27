@@ -27,7 +27,7 @@ async def admin_kb(callback: types.CallbackQuery, state: FSMContext): # клав
 @router.message(navigate.insert_key,F.text)
 async def try_key(message: Message, state: FSMContext): # проверка ключа
     if message.text == key:
-        await message.answer(f'Функции администратора:', reply_markup=admin_kb())
+        await message.answer(f'Функции администратора:', reply_markup=get_admin_kb())
     else: 
         await message.answer(f'Неверный ключ', reply_markup=ReplyKeyboardRemove())
 
@@ -43,6 +43,7 @@ async def running(callback: types.CallbackQuery, state: FSMContext):
 
 @router.message(navigate.choose_department, F.text.in_(available_departmemts))
 async def setting_departmant(message: Message, state: FSMContext):  #получаем результаты голосования
+    await state.update_data(department=message.text)
     user_data = await state.get_data()   
     results=get_vote_results(int(available_departmemts.index(user_data['department'])))
     await message.answer(f"🎉Поздарвляем, {results[0]} с каферды {user_data['department']}🎉 \nЗа этого кандидата проголосовало {results[1]} человек", reply_markup=ReplyKeyboardRemove())
@@ -63,7 +64,7 @@ async def admin_kb(callback: types.CallbackQuery, state: FSMContext): # клав
 # clear_sheet_________________________________________
 @router.callback_query(F.data == 'clear_sheet')
 async def admin_kb(callback: types.CallbackQuery, state: FSMContext): # клавиатура админа
-    await callback.message.answer(f'Выберите кафедру', reply_markup=ReplyKeyboardRemove())
+    await callback.message.answer(f'Выберите кафедру', reply_markup=make_row_keyboard(available_departmemts))
     await state.set_state(navigate.choose_department) #Устанавливаем пользователю состояние "выбирает ответ"
     await callback.answer() 
 

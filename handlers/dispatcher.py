@@ -11,6 +11,6 @@ router = Router()
 @router.message(Command('start','choice','menu','help'))
 async def cmd_start_menu(message: Message, state: FSMContext):
     await state.clear()
-    await message.answer(f'Привет, {message.chat.first_name}! {greeting[0]}',reply_markup=get_admin_kb())
+    await message.answer(f'Привет, {message.chat.first_name}! {greeting[0]}',reply_markup=get_choice_keyboard())
 
 
