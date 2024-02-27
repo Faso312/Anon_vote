@@ -3,8 +3,11 @@ import time
 
 sa = gspread.service_account('_Key_.json') #подключение в  json файлу библиотеки
 sh = sa.open("Vote_data")  #открытие таблицы с таким-то названием
-token="6600311339:AAEtH4iXyC0x005c-lc_EDYKyEarRl9Cdms"
 
+available_departmemts= ["АТП", "ИВТ", "ИБ", "ИСТ", "Приборостроение"]
+available_answers = ["за", "против", "воздержусь"]
+token="6600311339:AAEtH4iXyC0x005c-lc_EDYKyEarRl9Cdms"
+key='00000'
 
 def on_hold(sec: int): time.sleep(sec) # функция задержки 
 

@@ -2,14 +2,11 @@ from aiogram.types import Message, ReplyKeyboardRemove
 from aiogram.fsm.state import StatesGroup, State
 from aiogram.fsm.context import FSMContext
 from aiogram import Router, F, types
-from .db import get_vote_results, clear_sheets
+from .db import get_vote_results, clear_sheets, available_departmemts, key
 from .run import update_cand_list as update_
 from keyboards.dinemic_kb import make_row_keyboard
-from keyboards.static_kb import get_admin_kb, get_choice_keyboard
+from keyboards.static_kb import get_admin_kb
 
-
-available_departmemts= ["АТП", "ИВТ", "ИБ", "ИСТ", "Приборостроение"]
-key='00000'
 
 router = Router()
 
