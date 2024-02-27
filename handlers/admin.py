@@ -5,7 +5,7 @@ from aiogram import Router, F, types
 from .db import get_vote_results, clear_sheets
 from .run import update_cand_list as update_
 from keyboards.dinemic_kb import make_row_keyboard
-from keyboards.static_kb import admin_kb
+from keyboards.static_kb import admin_kb, get_choice_keyboard
 
 
 available_departmemts= ["АТП", "ИВТ", "ИБ", "ИСТ", "Приборостроение"]
@@ -14,8 +14,9 @@ key='00000'
 router = Router()
 
 class navigate(StatesGroup):
-    choose_department=State()
     insert_key=State()
+    choose_department=State()
+
 
 @router.callback_query(F.data == 'admin')
 async def admin_kb(callback: types.CallbackQuery, state: FSMContext): # клавиатура админа
@@ -26,8 +27,7 @@ async def admin_kb(callback: types.CallbackQuery, state: FSMContext): # клав
 @router.message(navigate.insert_key,F.text)
 async def try_key(message: Message, state: FSMContext): # проверка ключа
     if message.text == key:
-        await message.answer(f'Выберите кафедру',reply_markup=admin_kb())
-        await state.set_state(navigate.choose_department) #Устанавливаем пользователю состояние "выбирает ответ"
+        await message.answer(f'Функции администратора:', reply_markup=admin_kb())
     else: 
         await message.answer(f'Неверный ключ', reply_markup=ReplyKeyboardRemove())
 
