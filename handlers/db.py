@@ -5,6 +5,7 @@ sa = gspread.service_account('_Key_.json') #подключение в  json фа
 sh = sa.open("Vote_data")  #открытие таблицы с таким-то названием
 token="6600311339:AAEtH4iXyC0x005c-lc_EDYKyEarRl9Cdms"
 
+
 def on_hold(sec: int): time.sleep(sec) # функция задержки 
 
 def check(user_id: str,department_id: int):

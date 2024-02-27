@@ -2,7 +2,7 @@ from aiogram.types import Message, ReplyKeyboardRemove
 from aiogram.fsm.state import StatesGroup, State
 from aiogram.fsm.context import FSMContext
 from aiogram import Router, F, types, html
-from .DB import pass_user_data, get_candidats, check
+from .db import pass_user_data, get_candidats, check
 from keyboards.dinemic_kb import make_row_keyboard
 
 available_answers = ["за", "против", "воздержусь"]
