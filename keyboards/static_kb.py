@@ -14,7 +14,7 @@ def get_admin_kb():
     buttons.button(text='Результаты голосования', callback_data='get_results')
     buttons.button(text='Внести изменения', callback_data='update')
     buttons.button(text='Обнулить результаты', callback_data='clear_sheet')
-    buttons.adjust(3)
+    buttons.adjust(2)
     return buttons.as_markup()
 
 
