@@ -6,7 +6,7 @@ from .db import pass_user_data, get_candidats, check, available_departmemts, ava
 from keyboards.dinemic_kb import make_row_keyboard
 
 reply_after_quiz=["Спасибо вам за участие в секретном голосовании! Ваш голос имеет большое значение и помогает нам принимать важные решения. Мы ценим ваше мнение и благодарим вас за вклад в нашу работу!"]
-local_cand_list=cand()
+local_cand_list=get_cand()
 
 router = Router()
 
