@@ -27,7 +27,6 @@ def get_contenders():
         on_hold(5)
         return get_contenders()
 
-
 def pass_user_data(user_id: str,department_id: int,myList: list): #принимаем id пользователя и список ответов
     try:
         worksheet=sh.get_worksheet(department_id+3) #определение рабочей страницы в таблице
@@ -44,9 +43,9 @@ def pass_user_data(user_id: str,department_id: int,myList: list): #приним�
 def get_vote_results(department_id: int) -> list: 
     try:
         vote_list=[] #создаем локальный список голосов
-        department_worksheet=sh.get_worksheet(department_id+3) #определение рабочей страницы в таблице   
+        worksheet=sh.get_worksheet(department_id+3) #определение рабочей страницы в таблице   
         for itr in range(2,26,1): #перебор столбцов
-            votes=department_worksheet.col_values(itr) #определение 
+            votes=worksheet.col_values(itr) #определение 
             if votes: #bool  проверка на пустые столбцы
                 candidate=votes[0] #вопрос(имя кандидата)
                 votes_for=votes.count('за') #голоса за 
@@ -57,11 +56,16 @@ def get_vote_results(department_id: int) -> list:
     except gspread.exceptions.APIError:
         on_hold(5)
         return get_vote_results(department_id)
-
+    
+def get_results(dp_id: int) -> list[list]: 
+    t=sh.get_worksheet(dp_id+3)
+    print(t)
+    worksheet=np.array(t).T #определение рабочей страницы в таблице   
+    print(worksheet)
+get_results(1)
 def clear_sheets(department_id: int): #очищает клетки в диапозоне
     try: 
-        department_worksheet=sh.get_worksheet(department_id+3) #определение рабочей страницы в таблице
-        department_worksheet.batch_clear(["A3:Z100"]) #определяем область очистки
+        sh.get_worksheet(department_id+3).batch_clear(["A3:Z100"]) #определяем область очистки
     except gspread.exceptions.APIError: 
         on_hold(5)
         return clear_sheets(department_id)
