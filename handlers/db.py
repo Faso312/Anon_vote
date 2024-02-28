@@ -32,6 +32,13 @@ def get_candidats():
         on_hold(5)
         return get_candidats()
 
+def get_cand():
+    try:
+        return sh.get_worksheet(2).get_values()
+    except gspread.exceptions.APIError:
+        on_hold(5)
+        return get_candidats()
+
 
 def pass_user_data(user_id: str,department_id: int,myList: list): #принимаем id пользователя и список ответов
     try:
