@@ -39,7 +39,9 @@ def get_cand():
         on_hold(5)
         return get_cand()
 
+
 print(f'1:{get_candidats()}\n2:{get_cand()}')
+
 
 def pass_user_data(user_id: str,department_id: int,myList: list): #принимаем id пользователя и список ответов
     try:
