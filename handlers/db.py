@@ -49,8 +49,6 @@ def get_results(dp_id: int) -> list: #результаты голосовани�
     except gspread.exceptions.APIError: 
         on_hold(5)
         return get_results(dp_id)
-    
-print(get_results(1))
 
 def clear_sheets(dp_id: int): #очищает клетки в диапозоне
     try: 
