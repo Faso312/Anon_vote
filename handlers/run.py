@@ -2,7 +2,7 @@ from aiogram.types import Message, ReplyKeyboardRemove
 from aiogram.fsm.state import StatesGroup, State
 from aiogram.fsm.context import FSMContext
 from aiogram import Router, F, types, html
-from .db import pass_user_data, get_candidats, check, available_departmemts, available_answers, get, get_cand
+from .db import pass_user_data, get_candidats, check, available_departmemts, available_answers, get_cand
 from keyboards.dinemic_kb import make_row_keyboard
 
 reply_after_quiz=["Спасибо вам за участие в секретном голосовании! Ваш голос имеет большое значение и помогает нам принимать важные решения. Мы ценим ваше мнение и благодарим вас за вклад в нашу работу!"]
