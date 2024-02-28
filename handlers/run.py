@@ -6,7 +6,7 @@ from .db import *
 from keyboards.dinemic_kb import make_row_keyboard
 
 reply_after_quiz=["Спасибо вам за участие в секретном голосовании! Ваш голос имеет большое значение и помогает нам принимать важные решения. Мы ценим ваше мнение и благодарим вас за вклад в нашу работу!"]
-local_cand_list=get_cand()
+local_cand_list=get_contenders()
 
 router = Router()
 
@@ -43,7 +43,7 @@ class Answer_class(StatesGroup):
 
 def update_cand_list(): #функция обновления списка кандидатов
     global local_cand_list
-    local_cand_list=get_candidats()
+    local_cand_list=get_contenders()
     
 @router.callback_query(F.data == 'to_vote')
 async def running(callback: types.CallbackQuery, state: FSMContext): 

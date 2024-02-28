@@ -11,36 +11,21 @@ key='00000'
 
 def on_hold(sec: int): time.sleep(sec) # функция задержки 
 
-def check(user_id: str,department_id: int):
+def check(user_id: str,department_id: int): #проверка на наличие id пользователя в системе
     try:
         if sh.get_worksheet(department_id+3).find(user_id) is None: return True
         else: return False
     except gspread.exceptions.APIError:
         on_hold(5)
-        return get_candidats()
+        return check(user_id,department_id)
 
-def get_candidats():
+def get_contenders():
     try:
-        sheet3 = sh.get_worksheet(2)  # выбирам третий по порядку лист
-        candidats_ATP = sheet3.row_values(1)  # выбирам ПЕРВУЮ строку
-        candidats_IVT = sheet3.row_values(2)  # выбирам ВТОРАЯ строку
-        candidats_IS = sheet3.row_values(3)  # выбирам ТРЕТЬЯ строку
-        candidats_IST = sheet3.row_values(4)  # выбирам ЧЕТВЕРТАЯ строку
-        candidats_Pr = sheet3.row_values(5)  # выбирам ПЯТАЯ строку
-        return [candidats_ATP,candidats_IVT,candidats_IS,candidats_IST,candidats_Pr] #вывод общего списка кандидатов
+        list_=sh.get_worksheet(2).get_all_values() # список всех элементов страницы с кандидатами
+        return [[x for x in item if x] for item in list_]
     except gspread.exceptions.APIError:
         on_hold(5)
-        return get_candidats()
-
-def get_cand():
-    try:
-        return np.array(sh.get_worksheet(2).get_all_values())
-    except gspread.exceptions.APIError:
-        on_hold(5)
-        return get_cand()
-
-
-print(f'1:{get_candidats()}\n2:{get_cand()}')
+        return get_contenders()
 
 
 def pass_user_data(user_id: str,department_id: int,myList: list): #принимаем id пользователя и список ответов
