@@ -1,5 +1,5 @@
-import gspread
-import time
+import gspread, time
+import numpy as np
 
 sa = gspread.service_account('_Key_.json') #подключение в  json файлу библиотеки
 sh = sa.open("Vote_data")  #открытие таблицы с таким-то названием
@@ -34,10 +34,10 @@ def get_candidats():
 
 def get_cand():
     try:
-        return sh.get_worksheet(2).get_values()
+        return np.array(sh.get_worksheet(2).get_all_values())
     except gspread.exceptions.APIError:
         on_hold(5)
-        return get_candidats()
+        return get_cand()
 
 print(f'1:{get_candidats()}\n2:{get_cand()}')
 
